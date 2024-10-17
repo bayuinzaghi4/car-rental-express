@@ -15,7 +15,7 @@ class BaseModel {
       select,
       where,
       orderBy: {
-        [sortBy]: sort,
+        [sortBy]: sort, 
       },
       skip: (page - 1) * limit,
       take: limit,
