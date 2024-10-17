@@ -2,6 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient()
 const server = require('../index')
 
+
 afterAll( async () => {
   await prisma.order.deleteMany()
   await prisma.users.deleteMany()
