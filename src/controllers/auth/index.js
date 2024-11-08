@@ -10,7 +10,6 @@ const router = express.Router();
 const user = new UserModel();
 
 const signUpSchema = Joi.object({
-  fullname: Joi.string().required(),
   email: Joi.string().email().required(),
   password: Joi.string()
     .min(8)
@@ -74,13 +73,12 @@ class AuthController extends BaseController {
 
   signUp = async (req, res, next) => {
     try {
-      const { fullname, email, password } = req.body;
+      const { email, password } = req.body;
       const user = await this.model.getOne({ where: { email } });
 
       if (user) return next(new ValidationError("Email already exist!"));
 
       const newUser = await this.model.set({
-        fullname,
         email,
         password: await encryptPassword(password),
         roleId: 3
