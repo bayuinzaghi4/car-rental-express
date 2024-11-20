@@ -6,6 +6,7 @@ const UserModel = require("../../models/user");
 const { checkPassword, encryptPassword } = require("../../helpers/bcrypt");
 const { createToken } = require("../../helpers/jwt");
 const router = express.Router();
+const {authorize} = require("../../middlewares/authorization")
 
 const user = new UserModel();
 
@@ -33,6 +34,7 @@ class AuthController extends BaseController {
     super(model);
     router.post("/signin", this.validation(signInSchema), this.signIn);
     router.post("/signup", this.validation(signUpSchema), this.signUp);
+    router.get('/whoami', authorize, this.whoAmI);
   }
 
   signIn = async (req, res, next) => {
@@ -83,7 +85,7 @@ class AuthController extends BaseController {
         password: await encryptPassword(password),
         roleId: 3
       });
-
+console.log("data",res.data)
       return res.status(200).json(
         this.apiSend({
           code: 200,
@@ -98,10 +100,23 @@ class AuthController extends BaseController {
           },
         })
       );
+  
     } catch (e) {
       next(new ServerError(e));
     }
   };
+  whoAmI = async(req, res, next) => {
+    return res.status(200).json(
+      this.apiSend({
+        code: 200,
+        status: "success",
+        message: "Get user successfully",
+        data: {
+          user: req.user,
+        },
+      })
+    );
+  }
 }
 
 new AuthController(user);

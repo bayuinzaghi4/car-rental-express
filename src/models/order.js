@@ -5,15 +5,22 @@ class OrderModel extends BaseModel {
   constructor() {
     super("order");
     this.select = {
-        id: true,
-        order_no: true,
-        users:{
+      id: true,
+      order_no: true,
+      overdue_time: true,
+      status: true,
+      is_driver: true,
+      users: {
+        select: {
           fullname: true
+        }
+      },
+      cars: {
+        select: {
+          name: true,
+          isAvailable: true,
         },
-        cars:{
-          name: true
-        },
-        status: true
+      }
     };
   }
 }

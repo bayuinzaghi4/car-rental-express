@@ -9,8 +9,8 @@ class BaseController {
     this.model = model;
     this.validation = validation;
   }
-
-  getAll = async (req, res, next) => {
+  
+  getAll = async (req, res, next) => {  
     try {
       let {
         sortBy = "createdDt",

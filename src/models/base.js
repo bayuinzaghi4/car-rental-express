@@ -7,7 +7,7 @@ class BaseModel {
   constructor(model) {
     this.name = model
     this.model = prisma[model]; //prisma.users
-  }
+  };
 
   get = async ({ where = {}, q = {}, select = this.select }) => {
     const { sortBy = "createdDt", sort = "desc", page = 1, limit = 10 } = q;
@@ -32,10 +32,9 @@ class BaseModel {
     };
   };
 
-  getById = async (id, select) => {
-    return this.model.findUnique({ where: { id: Number(id) }, select });
-  };
-
+  getById = async (id, option) => {
+    return this.model.findUnique({ where: { id: Number(id) }, ...option, });
+  }
   getOne = async (query) => {
     return this.model.findFirst(query);
   };
@@ -46,7 +45,7 @@ class BaseModel {
 
   setMany = (data) => {
     return this.model.createMany({ data });
-  }
+  };
 
   update = (id, data) => {
     return this.model.update({

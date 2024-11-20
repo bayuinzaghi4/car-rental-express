@@ -6,9 +6,9 @@ const express = require('express');
 const { authorize, checkRole } = require("../../middlewares/authorization");
 const { memory } = require('../../middlewares/upload');
 const rbac = require('../../middlewares/rbac');
-var router = express.Router()
+const router = express.Router()
 
-const cars = new CarModel();
+const cars = new CarModel();  
 
 const carSchema = Joi.object({
   name: Joi.string().required(),

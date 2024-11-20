@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["omitApi"]
 }
 
 datasource db {
@@ -34,14 +35,17 @@ model cars {
 
 model order {
   id         Int       @id @default(autoincrement())
-  order_no   String    @unique @db.VarChar
+  order_no   String?    @unique @db.VarChar
   user_id    Int
   car_id     Int
   start_time DateTime? @db.Timestamp(6)
   end_time   DateTime? @db.Timestamp(6)
   total      Float?
   is_driver  Boolean?
-  is_expired Boolean?
+  overdue_time DateTime @default(dbgenerated("NOW() + interval '24 hours'"))
+  payment_method String @default("Cash")
+  promo_code String?
+  receipt String?
   status     String?   @db.VarChar
   createdDt  DateTime? @default(now()) @db.Timestamp(6)
   updatedDt  DateTime? @updatedAt
